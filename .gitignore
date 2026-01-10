@@ -22,3 +22,14 @@ Thumbs.db
 
 # Azure
 .env.production
+
+# Ignore training data
+data/
+*.csv
+
+# Python junk
+__pycache__/
+.ipynb_checkpoints/
+
+# Secrets
+.env
