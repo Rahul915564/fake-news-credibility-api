@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ML
+*.pkl
+*.joblib
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Azure
+.env.production
