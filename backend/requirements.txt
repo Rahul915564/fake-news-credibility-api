@@ -2,3 +2,4 @@ flask
 flask-cors
 joblib
 scikit-learn
+gunicorn
