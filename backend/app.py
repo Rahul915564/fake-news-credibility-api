@@ -8,11 +8,12 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# ---------- ABSOLUTE PATH (CORRECT) ----------
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-MODEL_PATH = os.path.join(BASE_DIR, "..", "ml", "model_v2.pkl")
-VECTORIZER_PATH = os.path.join(BASE_DIR, "..", "ml", "vectorizer_v2.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "ml", "model_v2.pkl")
+VECTORIZER_PATH = os.path.join(BASE_DIR, "ml", "vectorizer_v2.pkl")
+
 
 MODEL_PATH = os.path.abspath(MODEL_PATH)
 VECTORIZER_PATH = os.path.abspath(VECTORIZER_PATH)
@@ -20,7 +21,7 @@ VECTORIZER_PATH = os.path.abspath(VECTORIZER_PATH)
 print("MODEL PATH:", MODEL_PATH)
 print("VECTORIZER PATH:", VECTORIZER_PATH)
 
-# ---------- LOAD MODEL ----------
+
 model = joblib.load(MODEL_PATH)
 vectorizer = joblib.load(VECTORIZER_PATH)
 
@@ -38,7 +39,7 @@ def get_top_words(text, vectorizer, model, top_n=5):
 
     return [w for w, s in word_scores[:top_n]]
 
-# ---------- PREDICTION FUNCTION ----------
+
 def predict_news(title, text):
     content = title + " " + text
     vec = vectorizer.transform([content])
@@ -49,7 +50,7 @@ def predict_news(title, text):
     label = "REAL" if pred == 1 else "FAKE"
     return label, round(prob, 2)
 
-# ---------- API ----------
+
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
@@ -62,7 +63,7 @@ def predict():
 
     combined = title + " " + text
 
-    # ----- Prediction -----
+    
     vec = vectorizer.transform([combined])
     pred = model.predict(vec)[0]
     proba = model.predict_proba(vec)[0]
@@ -70,7 +71,7 @@ def predict():
     confidence = round(max(proba) * 100, 2)
     label = "REAL" if pred == 1 else "FAKE"
 
-    # ----- Explainability (STEP 2B) -----
+    
     top_words = get_top_words(combined, vectorizer, model)
 
     # ----- Risk Level -----
